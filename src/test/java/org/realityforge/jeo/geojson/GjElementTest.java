@@ -1,9 +1,7 @@
 package org.realityforge.jeo.geojson;
 
-import java.util.HashMap;
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.Geometry;
 import org.geolatte.geom.crs.CrsId;
