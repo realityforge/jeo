@@ -1,9 +1,8 @@
 package org.realityforge.jeo.geojson;
 
-import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.json.JsonValue;
+import javax.json.JsonObject;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.Geometry;
 import org.geolatte.geom.GeometryCollection;
@@ -19,7 +18,7 @@ public final class GjGeometry
   public GjGeometry( @Nonnull final Geometry geometry,
                      @Nullable final CrsId crsId,
                      @Nullable final Envelope bbox,
-                     @Nullable final Map<String, JsonValue> additionalProperties )
+                     @Nullable final JsonObject additionalProperties )
   {
     super( crsId, bbox, additionalProperties );
     if ( null == geometry )

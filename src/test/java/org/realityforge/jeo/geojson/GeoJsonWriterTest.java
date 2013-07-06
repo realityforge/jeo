@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonStructure;
@@ -129,9 +128,11 @@ public class GeoJsonWriterTest
   public void emitGeometryWithAdditionalAttributes()
   {
     final Geometry geometry = fromWkT( "POINT (1 1)" );
-    final HashMap<String, JsonValue> additionalProperties = new HashMap<>();
-    additionalProperties.put( "Foo", JsonValue.FALSE );
-    additionalProperties.put( "Bar", JsonValue.NULL );
+    final JsonObject additionalProperties =
+      Json.createObjectBuilder().
+        add( "Foo", false ).
+        add( "Bar", JsonValue.NULL ).
+        build();
     final GjElement e = new GjGeometry( geometry, null, null, additionalProperties );
 
     final JsonStructure result = writeAndRead( e );
@@ -206,9 +207,11 @@ public class GeoJsonWriterTest
   {
     final Geometry geometry = fromWkT( "POINT (1 1)" );
     final GjGeometry g = new GjGeometry( geometry, null, null, null );
-    final HashMap<String, JsonValue> additionalProperties = new HashMap<>();
-    additionalProperties.put( "Foo", JsonValue.FALSE );
-    additionalProperties.put( "Bar", JsonValue.NULL );
+    final JsonObject additionalProperties =
+      Json.createObjectBuilder().
+        add( "Foo", false ).
+        add( "Bar", JsonValue.NULL ).
+        build();
     final GjElement e = new GjFeature( null, g, null, null, additionalProperties );
 
     final JsonStructure result = writeAndRead( e );

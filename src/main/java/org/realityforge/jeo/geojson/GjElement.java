@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.crs.CrsId;
@@ -19,7 +20,7 @@ public abstract class GjElement
 
   protected GjElement( @Nullable final CrsId crsId,
                        @Nullable final Envelope bbox,
-                       @Nullable final Map<String, JsonValue> additionalProperties )
+                       @Nullable final JsonObject additionalProperties )
   {
     if ( null != additionalProperties )
     {
@@ -36,7 +37,7 @@ public abstract class GjElement
     _additionalProperties =
       null == additionalProperties ?
       Collections.<String, JsonValue>emptyMap() :
-      Collections.unmodifiableMap( additionalProperties );
+      additionalProperties;
   }
 
   @Nullable

@@ -2,10 +2,9 @@ package org.realityforge.jeo.geojson;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.json.JsonValue;
+import javax.json.JsonObject;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.crs.CrsId;
 
@@ -18,7 +17,7 @@ public final class GjGeometryCollection
   public GjGeometryCollection( @Nonnull final List<GjGeometry> collection,
                                @Nullable final CrsId crsId,
                                @Nullable final Envelope bbox,
-                               @Nullable final Map<String, JsonValue> additionalProperties )
+                               @Nullable final JsonObject additionalProperties )
   {
     super( crsId, bbox, additionalProperties );
     if ( null == collection )

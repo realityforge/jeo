@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.crs.CrsId;
@@ -17,7 +18,7 @@ public final class GjFeatureCollection
   public GjFeatureCollection( @Nonnull final List<GjFeature> collection,
                               @Nullable final CrsId crsId,
                               @Nullable final Envelope bbox,
-                              @Nullable final Map<String, JsonValue> additionalProperties )
+                              @Nullable final JsonObject additionalProperties )
   {
     super( crsId, bbox, additionalProperties );
     _collection = Collections.unmodifiableList( collection );

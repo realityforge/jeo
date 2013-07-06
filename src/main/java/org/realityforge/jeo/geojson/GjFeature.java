@@ -1,8 +1,8 @@
 package org.realityforge.jeo.geojson;
 
-import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.crs.CrsId;
@@ -21,7 +21,7 @@ public final class GjFeature
                     @Nonnull final GjGeometry geometry,
                     @Nullable final CrsId crsId,
                     @Nullable final Envelope bbox,
-                    @Nullable final Map<String, JsonValue> additionalProperties )
+                    @Nullable final JsonObject additionalProperties )
   {
     this( id, crsId, bbox, additionalProperties, geometry, null );
   }
@@ -30,7 +30,7 @@ public final class GjFeature
                     @Nonnull final GjGeometryCollection geometryCollection,
                     @Nullable final CrsId crsId,
                     @Nullable final Envelope bbox,
-                    @Nullable final Map<String, JsonValue> additionalProperties )
+                    @Nullable final JsonObject additionalProperties )
   {
     this( id, crsId, bbox, additionalProperties, null, geometryCollection );
   }
@@ -38,7 +38,7 @@ public final class GjFeature
   public GjFeature( @Nullable final JsonValue id,
                     @Nullable final CrsId crsId,
                     @Nullable final Envelope bbox,
-                    @Nullable final Map<String, JsonValue> additionalProperties )
+                    @Nullable final JsonObject additionalProperties )
   {
     this( id, crsId, bbox, additionalProperties, null, null );
   }
@@ -46,7 +46,7 @@ public final class GjFeature
   private GjFeature( @Nullable final JsonValue id,
                      @Nullable final CrsId crsId,
                      @Nullable final Envelope bbox,
-                     @Nullable final Map<String, JsonValue> additionalProperties,
+                     @Nullable final JsonObject additionalProperties,
                      @Nullable final GjGeometry geometry,
                      @Nullable final GjGeometryCollection geometryCollection )
   {

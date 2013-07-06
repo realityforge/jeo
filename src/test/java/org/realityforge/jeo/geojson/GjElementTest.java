@@ -1,6 +1,8 @@
 package org.realityforge.jeo.geojson;
 
 import java.util.HashMap;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonValue;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.Geometry;
@@ -19,13 +21,15 @@ public final class GjElementTest
     final Geometry geometry = fromWkT( "POINT (1 1)" );
     final CrsId crsId = CrsRegistry.getCrsIdForEPSG( 1234 );
     final Envelope bbox = new Envelope( 0, 0, 2, 2, crsId );
-    final HashMap<String, JsonValue> additional = new HashMap<>();
-    additional.put( "foo", JsonValue.FALSE );
-    final GjGeometry e = new GjGeometry( geometry, crsId, bbox, additional );
+    final JsonObject additionalProperties =
+      Json.createObjectBuilder().
+        add( "foo", false ).
+        build();
+    final GjGeometry e = new GjGeometry( geometry, crsId, bbox, additionalProperties );
     assertEquals( e.getGeometry(), geometry );
     assertEquals( e.getBBox(), bbox );
     assertEquals( e.getCrsId(), crsId );
-    assertEquals( e.getAdditionalProperties(), additional );
+    assertEquals( e.getAdditionalProperties(), additionalProperties );
     assertPropertyAllowed( e, "X" );
     assertPropertyNotAllowed( e, "crs" );
     assertPropertyNotAllowed( e, "bbox" );
@@ -55,16 +59,18 @@ public final class GjElementTest
 
   private void verifyAdditionalDataRestricted( final String key )
   {
-    final HashMap<String, JsonValue> additional = new HashMap<>();
-    additional.put( key, JsonValue.FALSE );
+    final JsonObject additionalProperties =
+      Json.createObjectBuilder().
+        add( key, false ).
+        build();
     try
     {
-      new GjGeometry( fromWkT( "POINT (1 1)" ), null, null, additional );
+      new GjGeometry( fromWkT( "POINT (1 1)" ), null, null, additionalProperties );
     }
     catch ( final IllegalArgumentException e )
     {
       return;
     }
-    fail( "Expected to receive an exception for addition data: " + additional );
+    fail( "Expected to receive an exception for addition data: " + additionalProperties );
   }
 }
