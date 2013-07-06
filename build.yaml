@@ -1,0 +1,15 @@
+repositories:
+  remote:
+   - http://repo1.maven.org/maven2
+   - http://github.com/realityforge/repository/raw/master
+
+artifacts:
+  javax_annotation: com.google.code.findbugs:jsr305:jar:1.3.9
+  javax_inject: javax.inject:javax.inject:jar:1
+  javax_json: org.glassfish:javax.json:jar:1.0.1
+
+  slf4j_api: org.slf4j:slf4j-api:jar:1.6.6
+  slf4j_jdk14: org.slf4j:slf4j-jdk14:jar:1.6.6
+
+  geolatte_geom: org.geolatte:geolatte-geom:jar:0.12-rf
+  jts: com.vividsolutions:jts:jar:1.13
