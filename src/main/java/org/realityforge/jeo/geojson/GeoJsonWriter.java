@@ -223,7 +223,7 @@ public class GeoJsonWriter
                     @Nonnull final GjFeature element )
   {
     g.writeStartObject();
-    emitHeader( g, "Feature", element, true );
+    emitHeader( g, "Feature", element, false );
     if ( JsonValue.NULL != element.getId() )
     {
       g.write( "id", element.getId() );
