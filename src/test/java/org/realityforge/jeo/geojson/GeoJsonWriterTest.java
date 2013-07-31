@@ -152,7 +152,7 @@ public class GeoJsonWriterTest
     final JsonStructure result = writeAndRead( e );
 
     final String expectedJson =
-      "{\"type\":\"Point\",\"crs\":{\"type\":\"name\",\"properties\":{\"name\":\"EPSG:3111\"}},\"coordinates\":[1.0,1.0]}";
+      "{\"type\":\"Point\",\"crs\":{\"type\":\"EPSG\",\"properties\":{\"code\":\"3111\"}},\"coordinates\":[1.0,1.0]}";
     final JsonObject expected = (JsonObject) parse( expectedJson );
     assertEquals( result, expected );
   }

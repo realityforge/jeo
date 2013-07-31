@@ -288,13 +288,23 @@ public class GeoJsonWriter
 
   private void writeCrsId( final JsonGenerator g, final CrsId crsId )
   {
-    if ( null != crsId )
+    if ( null != crsId && CrsId.UNDEFINED != crsId )
     {
       g.writeStartObject( "crs" );
-      g.write( "type", "name" );
-      g.writeStartObject( "properties" );
-      g.write( "name", crsId.getAuthority() + ":" + crsId.getCode() );
-      g.writeEnd();
+      if ( CrsId.DEFAULT_AUTHORITY.equals( crsId.getAuthority() ) )
+      {
+        g.write( "type", crsId.getAuthority() );
+        g.writeStartObject( "properties" );
+        g.write( "code", String.valueOf( crsId.getCode() ) );
+        g.writeEnd();
+      }
+      else
+      {
+        g.write( "type", "name" );
+        g.writeStartObject( "properties" );
+        g.write( "name", crsId.getAuthority() + ":" + crsId.getCode() );
+        g.writeEnd();
+      }
 
       g.writeEnd();
     }
