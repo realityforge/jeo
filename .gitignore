@@ -1,14 +1,9 @@
 /artifacts
-/client/downloads
-/config/database.yml
-/generated
-/*/generated
+/_buildr.rb
 /target
 /reports
 /*.iws
 /*.ipr
 *.iml
-/.bundle
-/.sass-cache
 /Gemfile.lock
 /tmp
