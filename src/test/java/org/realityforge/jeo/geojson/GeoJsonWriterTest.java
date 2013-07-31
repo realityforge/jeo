@@ -243,7 +243,7 @@ public class GeoJsonWriterTest
     final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     final JsonGenerator g = Json.createGenerator( baos );
 
-    new GeoJsonWriter().emit( g, e );
+    new GeoJsonWriter().write( g, e );
 
     g.flush();
 

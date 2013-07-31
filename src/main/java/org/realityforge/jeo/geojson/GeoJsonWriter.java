@@ -20,24 +20,24 @@ import org.geolatte.geom.crs.CrsId;
 
 public class GeoJsonWriter
 {
-  public void emit( @Nonnull final JsonGenerator g,
-                    @Nonnull final GjElement element )
+  public void write( @Nonnull final JsonGenerator g,
+                     @Nonnull final GjElement element )
   {
     if ( element instanceof GjGeometry )
     {
-      emit( g, (GjGeometry) element );
+      write( g, (GjGeometry) element );
     }
     else if ( element instanceof GjGeometryCollection )
     {
-      emit( g, (GjGeometryCollection) element );
+      write( g, (GjGeometryCollection) element );
     }
     else if ( element instanceof GjFeature )
     {
-      emit( g, (GjFeature) element );
+      write( g, (GjFeature) element );
     }
     else if ( element instanceof GjFeatureCollection )
     {
-      emit( g, (GjFeatureCollection) element );
+      write( g, (GjFeatureCollection) element );
     }
     else
     {
@@ -45,65 +45,65 @@ public class GeoJsonWriter
     }
   }
 
-  public void emit( @Nonnull final JsonGenerator g,
-                    @Nonnull final GjGeometry element )
+  public void write( @Nonnull final JsonGenerator g,
+                     @Nonnull final GjGeometry element )
   {
     g.writeStartObject();
-    emitGeometryBody( g, element );
+    writeGeometryBody( g, element );
     g.writeEnd();
   }
 
-  private void emitGeometryBody( final JsonGenerator g, final GjGeometry element )
+  private void writeGeometryBody( final JsonGenerator g, final GjGeometry element )
   {
     final Geometry geometry = element.getGeometry();
     if ( geometry instanceof Point )
     {
-      emitHeader( g, "Point", element, true );
+      writeHeader( g, "Point", element, true );
 
       final Point p = (Point) geometry;
       g.writeStartArray( "coordinates" );
-      emitPositionBody( g, p.getX(), p.getY(), p.is3D() ? p.getZ() : null, p.isMeasured() ? p.getM() : null );
+      writePositionBody( g, p.getX(), p.getY(), p.is3D() ? p.getZ() : null, p.isMeasured() ? p.getM() : null );
       g.writeEnd();
 
     }
     else if ( geometry instanceof LineString )
     {
-      emitHeader( g, "LineString", element, true );
+      writeHeader( g, "LineString", element, true );
 
       g.writeStartArray( "coordinates" );
-      emitLineStringBody( g, (LineString) geometry );
+      writeLineStringBody( g, (LineString) geometry );
       g.writeEnd();
     }
     else if ( geometry instanceof Polygon )
     {
-      emitHeader( g, "Polygon", element, true );
+      writeHeader( g, "Polygon", element, true );
 
       final Polygon p = (Polygon) geometry;
 
       g.writeStartArray( "coordinates" );
-      emitPolygonBody( g, p );
+      writePolygonBody( g, p );
       g.writeEnd();
     }
     else if ( geometry instanceof MultiPoint )
     {
-      emitHeader( g, "MultiPoint", element, true );
+      writeHeader( g, "MultiPoint", element, true );
       final MultiPoint mp = (MultiPoint) geometry;
       g.writeStartArray( "coordinates" );
       final int count = mp.getNumGeometries();
       for ( int i = 0; i < count; i++ )
       {
         final Point p = mp.getGeometryN( i );
-        emitPosition( g,
-                      p.getX(),
-                      p.getY(),
-                      p.is3D() ? p.getZ() : null,
-                      p.isMeasured() ? p.getM() : null );
+        writePosition( g,
+                       p.getX(),
+                       p.getY(),
+                       p.is3D() ? p.getZ() : null,
+                       p.isMeasured() ? p.getM() : null );
       }
       g.writeEnd();
     }
     else if ( geometry instanceof MultiLineString )
     {
-      emitHeader( g, "MultiLineString", element, true );
+      writeHeader( g, "MultiLineString", element, true );
       g.writeStartArray( "coordinates" );
 
       final MultiLineString multiLineString = (MultiLineString) geometry;
@@ -112,7 +112,7 @@ public class GeoJsonWriter
       {
         final LineString lineString = multiLineString.getGeometryN( i );
         g.writeStartArray();
-        emitLineStringBody( g, lineString );
+        writeLineStringBody( g, lineString );
         g.writeEnd();
       }
 
@@ -120,7 +120,7 @@ public class GeoJsonWriter
     }
     else if ( geometry instanceof MultiPolygon )
     {
-      emitHeader( g, "MultiPolygon", element, true );
+      writeHeader( g, "MultiPolygon", element, true );
       final MultiPolygon mp = (MultiPolygon) geometry;
 
       g.writeStartArray( "coordinates" );
@@ -128,7 +128,7 @@ public class GeoJsonWriter
       for ( int i = 0; i < size; i++ )
       {
         g.writeStartArray();
-        emitPolygonBody( g, mp.getGeometryN( i ) );
+        writePolygonBody( g, mp.getGeometryN( i ) );
         g.writeEnd();
       }
       g.writeEnd();
@@ -139,56 +139,60 @@ public class GeoJsonWriter
     }
   }
 
-  private void emitPolygonBody( final JsonGenerator g, final Polygon p )
+  private void writePolygonBody( final JsonGenerator g, final Polygon p )
   {
     final LinearRing exteriorRing = p.getExteriorRing();
     g.writeStartArray();
-    emitLinearRingBody( g, exteriorRing );
+    writeLinearRingBody( g, exteriorRing );
     g.writeEnd();
     final int count = p.getNumInteriorRing();
     for ( int i = 0; i < count; i++ )
     {
       final LinearRing inner = p.getInteriorRingN( i );
       g.writeStartArray();
-      emitLinearRingBody( g, inner );
+      writeLinearRingBody( g, inner );
       g.writeEnd();
     }
   }
 
-  private void emitLineStringBody( final JsonGenerator g, final LineString lineString )
+  private void writeLineStringBody( final JsonGenerator g, final LineString lineString )
   {
-    emitPointCollection( g, lineString.getPoints() );
+    writePointCollection( g, lineString.getPoints() );
   }
 
-  private void emitLinearRingBody( final JsonGenerator g, final LinearRing linearRing )
+  private void writeLinearRingBody( final JsonGenerator g, final LinearRing linearRing )
   {
-    emitPointCollection( g, linearRing.getPoints() );
+    writePointCollection( g, linearRing.getPoints() );
   }
 
-  private void emitPointCollection( final JsonGenerator g, final PointCollection p )
+  private void writePointCollection( final JsonGenerator g, final PointCollection p )
   {
     final int size = p.size();
     for ( int i = 0; i < size; i++ )
     {
-      emitPosition( g, p.getX( i ),
-                    p.getY( i ),
-                    p.is3D() ? p.getZ( i ) : null,
-                    p.isMeasured() ? p.getM( i ) : null );
+      writePosition( g, p.getX( i ),
+                     p.getY( i ),
+                     p.is3D() ? p.getZ( i ) : null,
+                     p.isMeasured() ? p.getM( i ) : null );
     }
   }
 
-  private void emitPosition( @Nonnull final JsonGenerator g,
-                             final double x,
-                             final double y,
-                             @Nullable final Double z,
-                             @Nullable final Double m )
+  private void writePosition( @Nonnull final JsonGenerator g,
+                              final double x,
+                              final double y,
+                              @Nullable final Double z,
+                              @Nullable final Double m )
   {
     g.writeStartArray();
-    emitPositionBody( g, x, y, z, m );
+    writePositionBody( g, x, y, z, m );
     g.writeEnd();
   }
 
-  private void emitPositionBody( final JsonGenerator g, final double x, final double y, final Double z, final Double m )
+  private void writePositionBody( final JsonGenerator g,
+                                  final double x,
+                                  final double y,
+                                  final Double z,
+                                  final Double m )
   {
     g.write( x );
     g.write( y );
@@ -202,28 +206,28 @@ public class GeoJsonWriter
     }
   }
 
-  public void emit( @Nonnull final JsonGenerator g,
-                    @Nonnull final GjGeometryCollection element )
+  public void write( @Nonnull final JsonGenerator g,
+                     @Nonnull final GjGeometryCollection element )
   {
     g.writeStartObject();
 
-    emitHeader( g, "GeometryCollection", element, true );
+    writeHeader( g, "GeometryCollection", element, true );
 
     g.writeStartArray( "geometries" );
     for ( final GjGeometry geometry : element.getCollection() )
     {
-      emit( g, geometry );
+      write( g, geometry );
     }
     g.writeEnd();
 
     g.writeEnd();
   }
 
-  public void emit( @Nonnull final JsonGenerator g,
-                    @Nonnull final GjFeature element )
+  public void write( @Nonnull final JsonGenerator g,
+                     @Nonnull final GjFeature element )
   {
     g.writeStartObject();
-    emitHeader( g, "Feature", element, false );
+    writeHeader( g, "Feature", element, false );
     if ( JsonValue.NULL != element.getId() )
     {
       g.write( "id", element.getId() );
@@ -232,7 +236,7 @@ public class GeoJsonWriter
     if ( null != geometry )
     {
       g.writeStartObject( "geometry" );
-      emitGeometryBody( g, geometry );
+      writeGeometryBody( g, geometry );
       g.writeEnd();
     }
     else
@@ -241,7 +245,7 @@ public class GeoJsonWriter
       if ( null != geometryCollection )
       {
         g.writeStartObject( "geometry" );
-        emit( g, geometryCollection );
+        write( g, geometryCollection );
         g.writeEnd();
       }
       else
@@ -257,30 +261,30 @@ public class GeoJsonWriter
     g.writeEnd();
   }
 
-  public void emit( @Nonnull final JsonGenerator g,
-                    @Nonnull final GjFeatureCollection element )
+  public void write( @Nonnull final JsonGenerator g,
+                     @Nonnull final GjFeatureCollection element )
   {
     g.writeStartObject();
-    emitHeader( g, "FeatureCollection", element, true );
+    writeHeader( g, "FeatureCollection", element, true );
     g.writeStartArray( "features" );
     for ( final GjFeature feature : element.getCollection() )
     {
-      emit( g, feature );
+      write( g, feature );
     }
     g.writeEnd();
 
     g.writeEnd();
   }
 
-  private void emitHeader( final JsonGenerator g,
-                           final String type,
-                           @Nonnull final GjElement element,
-                           final boolean emitProperties )
+  private void writeHeader( final JsonGenerator g,
+                            final String type,
+                            @Nonnull final GjElement element,
+                            final boolean writeProperties )
   {
     g.write( "type", type );
     writeBbox( g, element.getBBox() );
     writeCrsId( g, element.getCrsId() );
-    if ( emitProperties )
+    if ( writeProperties )
     {
       writeProperties( g, element.getAdditionalProperties() );
     }
@@ -315,7 +319,7 @@ public class GeoJsonWriter
     if ( null != bbox )
     {
       g.writeStartArray( "bbox" );
-      emitPositionBody( g, bbox.getMinX(), bbox.getMinY(), bbox.getMaxX(), bbox.getMaxY() );
+      writePositionBody( g, bbox.getMinX(), bbox.getMinY(), bbox.getMaxX(), bbox.getMaxY() );
       g.writeEnd();
     }
   }
