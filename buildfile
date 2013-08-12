@@ -6,8 +6,8 @@ desc 'Jeo: Java Geo library'
 define 'jeo' do
   project.group = 'org.realityforge.jeo'
 
-  compile.options.source = '1.7'
-  compile.options.target = '1.7'
+  compile.options.source = '1.6'
+  compile.options.target = '1.6'
   compile.options.lint = 'all'
 
   compile.with :javax_json,
