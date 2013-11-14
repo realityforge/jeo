@@ -53,6 +53,18 @@ public class GeoJsonWriter
     g.writeEnd();
   }
 
+  private void writeGeometryCollection( final JsonGenerator g, final GjGeometryCollection element )
+  {
+    writeHeader( g, "GeometryCollection", element, true );
+
+    g.writeStartArray( "geometries" );
+    for ( final GjGeometry geometry : element.getCollection() )
+    {
+      write( g, geometry );
+    }
+    g.writeEnd();
+  }
+
   private void writeGeometryBody( final JsonGenerator g, final GjGeometry element )
   {
     final Geometry geometry = element.getGeometry();
@@ -211,14 +223,7 @@ public class GeoJsonWriter
   {
     g.writeStartObject();
 
-    writeHeader( g, "GeometryCollection", element, true );
-
-    g.writeStartArray( "geometries" );
-    for ( final GjGeometry geometry : element.getCollection() )
-    {
-      write( g, geometry );
-    }
-    g.writeEnd();
+    writeGeometryCollection( g, element );
 
     g.writeEnd();
   }
@@ -245,7 +250,7 @@ public class GeoJsonWriter
       if ( null != geometryCollection )
       {
         g.writeStartObject( "geometry" );
-        write( g, geometryCollection );
+        writeGeometryCollection( g, geometryCollection );
         g.writeEnd();
       }
       else
