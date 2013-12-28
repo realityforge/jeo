@@ -25,7 +25,7 @@ public final class Benchmark
         build();
     final Geometry geometry = fromWkT( "POINT (1 1)" );
     final GjGeometry e = new GjGeometry( geometry, crsId, bbox, additionalProperties );
-    final ArrayList<GjGeometry> geometries = new ArrayList<>();
+    final ArrayList<GjGeometry> geometries = new ArrayList<GjGeometry>();
     geometries.add( e );
     final GjElement element =
       new GjGeometryCollection( geometries, crsId, bbox, additionalProperties );
