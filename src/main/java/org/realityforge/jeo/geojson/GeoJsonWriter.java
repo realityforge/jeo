@@ -18,10 +18,10 @@ import org.geolatte.geom.PointCollection;
 import org.geolatte.geom.Polygon;
 import org.geolatte.geom.crs.CrsId;
 
-public class GeoJsonWriter
+final class GeoJsonWriter
 {
-  public void write( @Nonnull final JsonGenerator g,
-                     @Nonnull final GjElement element )
+  void write( @Nonnull final JsonGenerator g,
+              @Nonnull final GjElement element )
   {
     if ( element instanceof GjGeometry )
     {
@@ -45,8 +45,8 @@ public class GeoJsonWriter
     }
   }
 
-  public void write( @Nonnull final JsonGenerator g,
-                     @Nonnull final GjGeometry element )
+  void write( @Nonnull final JsonGenerator g,
+              @Nonnull final GjGeometry element )
   {
     g.writeStartObject();
     writeGeometryBody( g, element );
@@ -218,8 +218,8 @@ public class GeoJsonWriter
     }
   }
 
-  public void write( @Nonnull final JsonGenerator g,
-                     @Nonnull final GjGeometryCollection element )
+  void write( @Nonnull final JsonGenerator g,
+              @Nonnull final GjGeometryCollection element )
   {
     g.writeStartObject();
 
@@ -228,8 +228,8 @@ public class GeoJsonWriter
     g.writeEnd();
   }
 
-  public void write( @Nonnull final JsonGenerator g,
-                     @Nonnull final GjFeature element )
+  void write( @Nonnull final JsonGenerator g,
+              @Nonnull final GjFeature element )
   {
     g.writeStartObject();
     writeHeader( g, "Feature", element, false );
@@ -266,8 +266,8 @@ public class GeoJsonWriter
     g.writeEnd();
   }
 
-  public void write( @Nonnull final JsonGenerator g,
-                     @Nonnull final GjFeatureCollection element )
+  void write( @Nonnull final JsonGenerator g,
+              @Nonnull final GjFeatureCollection element )
   {
     g.writeStartObject();
     writeHeader( g, "FeatureCollection", element, true );
