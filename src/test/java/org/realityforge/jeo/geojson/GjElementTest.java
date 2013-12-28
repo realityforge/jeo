@@ -1,7 +1,9 @@
 package org.realityforge.jeo.geojson;
 
+import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonStructure;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.Geometry;
 import org.geolatte.geom.crs.CrsId;
@@ -32,6 +34,12 @@ public final class GjElementTest
     assertPropertyNotAllowed( e, "crs" );
     assertPropertyNotAllowed( e, "bbox" );
     assertPropertyNotAllowed( e, "type" );
+    final JsonStructure actual = Json.createReader( new StringReader( e.toString() ) ).read();
+
+    final String expectedJson =
+      "{\"type\":\"Point\",\"bbox\":[0.0,0.0,2.0,2.0],\"foo\":false,\"coordinates\":[1.0,1.0]}";
+    final JsonStructure expected = Json.createReader( new StringReader( expectedJson ) ).read();
+    assertEquals( actual, expected );
   }
 
   @Test

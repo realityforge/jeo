@@ -1,11 +1,14 @@
 package org.realityforge.jeo.geojson;
 
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
+import javax.json.stream.JsonGenerator;
 import org.geolatte.geom.Envelope;
 import org.geolatte.geom.crs.CrsId;
 
@@ -63,5 +66,15 @@ public abstract class GjElement
     return !( "type".equals( name ) ||
               "crs".equals( name ) ||
               "bbox".equals( name ) );
+  }
+
+  @Override
+  public String toString()
+  {
+    final StringWriter writer = new StringWriter();
+    final JsonGenerator g = Json.createGenerator( writer );
+    new GeoJsonWriter().write( g, this );
+    g.close();
+    return writer.toString();
   }
 }
