@@ -4,6 +4,11 @@ desc 'Jeo: Java Geo library'
 define 'jeo' do
   project.group = 'org.realityforge.jeo'
 
+  pom.add_apache2_license
+  pom.add_github_project('realityforge/jeo')
+  pom.add_developer('realityforge', 'Peter Donald')
+  pom.provided_dependencies.concat [:javax_annotation, :javax_json]
+
   compile.options.source = '1.6'
   compile.options.target = '1.6'
   compile.options.lint = 'all'
@@ -17,5 +22,7 @@ define 'jeo' do
 
   test.using :testng
 
-  package :jar
+  package(:jar)
+  package(:sources)
+  package(:javadoc)
 end
