@@ -1,10 +1,11 @@
 require 'buildr/git_auto_version'
+require 'buildr/custom_pom'
 
 desc 'Jeo: Java Geo library'
 define 'jeo' do
   project.group = 'org.realityforge.jeo'
 
-  pom.add_apache2_license
+  pom.add_apache_v2_license
   pom.add_github_project('realityforge/jeo')
   pom.add_developer('realityforge', 'Peter Donald')
   pom.provided_dependencies.concat [:javax_annotation, :javax_json]
