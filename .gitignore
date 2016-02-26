@@ -1,9 +1,9 @@
-/artifacts
-/_buildr.rb
-/target
-/reports
-/*.iws
-/*.ipr
 *.iml
+/*.ipr
+/*.iws
 /Gemfile.lock
+/_buildr.rb
+/artifacts
+/reports
+/target
 /tmp
